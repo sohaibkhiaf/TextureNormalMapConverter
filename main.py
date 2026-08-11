@@ -25,12 +25,12 @@ BATCH_SIZE = 4
 EPOCHS = 200
 LR_G = 3e-4
 LR_D = 2e-4
-BETAS = (0.5, 0.999)
-LAMBDA_L1 = 150            # weight of L1 term vs adversarial term in generator loss
-DECAY_START_EPOCH = EPOCHS // 2   # start linear LR decay halfway through
+BETAS = (0.5, 0.999)  # ??
+LAMBDA_L1 = 150            # ?? weight of L1 term vs adversarial term in generator loss
+DECAY_START_EPOCH = EPOCHS // 2   # ?? start linear LR decay halfway through
 CKPT_DIR = "checkpoints"
 SAMPLE_DIR = "samples"
-LOG_EVERY = 50
+LOG_EVERY = 2
 
 assert IMAGE_SIZE % 256 == 0, "IMAGE_SIZE must be a multiple of 256 for this 8-layer U-Net."
 
@@ -361,15 +361,23 @@ def main():
     torch.save(G.state_dict(), os.path.join(CKPT_DIR, "G_final.pt"))
     torch.save(D.state_dict(), os.path.join(CKPT_DIR, "D_final.pt"))
 
-    # Loss curves
+    # Loss curves (separate figures)
     plt.figure()
-    plt.plot(history["loss_D"], label="D loss")
     plt.plot(history["loss_G"], label="G loss")
     plt.xlabel("epoch")
     plt.ylabel("loss")
     plt.legend()
-    plt.title("Training losses")
-    plt.savefig(os.path.join(SAMPLE_DIR, "loss_curves.png"))
+    plt.title("Generator training loss")
+    plt.savefig(os.path.join(SAMPLE_DIR, "loss_curve_G.png"))
+    plt.close()
+
+    plt.figure()
+    plt.plot(history["loss_D"], label="D loss")
+    plt.xlabel("epoch")
+    plt.ylabel("loss")
+    plt.legend()
+    plt.title("Discriminator training loss")
+    plt.savefig(os.path.join(SAMPLE_DIR, "loss_curve_D.png"))
     plt.close()
 
     # ---- Evaluation ----
