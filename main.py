@@ -30,7 +30,7 @@ LAMBDA_L1 = 150            # ?? weight of L1 term vs adversarial term in generat
 DECAY_START_EPOCH = EPOCHS // 2   # ?? start linear LR decay halfway through
 CKPT_DIR = "checkpoints"
 SAMPLE_DIR = "samples"
-LOG_EVERY = 2
+LOG_EVERY = 1
 
 assert IMAGE_SIZE % 256 == 0, "IMAGE_SIZE must be a multiple of 256 for this 8-layer U-Net."
 
