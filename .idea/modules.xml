@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/TNMP_Training.iml" filepath="$PROJECT_DIR$/.idea/TNMP_Training.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/TextureToNormalMap_cGAN.iml" filepath="$PROJECT_DIR$/.idea/TextureToNormalMap_cGAN.iml" />
     </modules>
   </component>
 </project>
