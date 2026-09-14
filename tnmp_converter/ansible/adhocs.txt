@@ -1,0 +1,5 @@
+test connection:
+ansible all -i inventory.ini --private-key ~/.ssh/tnmp_converter_key -m ansible.builtin.ping 
+
+run playbook: 
+ansible-playbook -i inventory.ini playbook.yaml --private-key=~/.ssh/tnmp_converter_key
