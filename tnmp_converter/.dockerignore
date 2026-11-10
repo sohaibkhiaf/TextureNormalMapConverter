@@ -1,0 +1,6 @@
+.vscode/ 
+checkpoints/
+normal_maps.db
+static/uploads/
+static/generated/
+

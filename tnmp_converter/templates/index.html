@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Texture → Normal Map
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+
+</head>
+
+<body>
+
+    <main class="page">
+
+        <!-- ================================================= -->
+        <!-- Header -->
+        <!-- ================================================= -->
+
+        <header class="header">
+
+            <div>
+
+                <div class="badge">
+                    AI IMAGE GENERATOR
+                </div>
+
+                <h1>
+                    Texture
+                    <span>→</span>
+                    Normal Map
+                </h1>
+
+                <p>
+                    Generate realistic normal maps from
+                    texture images using a trained
+                    Pix2Pix model.
+                </p>
+
+            </div>
+
+        </header>
+
+
+        <!-- ================================================= -->
+        <!-- Upload Card -->
+        <!-- ================================================= -->
+
+        <section class="upload-card">
+
+            <div class="upload-icon">
+                ↑
+            </div>
+
+            <h2>
+                Generate a Normal Map
+            </h2>
+
+            <p class="description">
+                Upload a texture image and let the AI
+                generate its normal map.
+            </p>
+
+
+            <form
+                action="{{ url_for('generate') }}"
+                method="POST"
+                enctype="multipart/form-data"
+            >
+
+                <label
+                    for="texture"
+                    class="file-label"
+                >
+
+                    <span>
+                        Choose texture image
+                    </span>
+
+                    <small>
+                        PNG, JPG, JPEG or WEBP
+                    </small>
+
+                </label>
+
+                <input
+                    id="texture"
+                    type="file"
+                    name="texture"
+                    accept="image/png,image/jpeg,image/webp"
+                    required
+                >
+
+
+                <button
+                    type="submit"
+                    class="generate-button"
+                >
+
+                    Generate Normal Map
+
+                    <span>
+                        →
+                    </span>
+
+                </button>
+
+            </form>
+
+        </section>
+
+
+        <!-- ================================================= -->
+        <!-- Latest Result -->
+        <!-- ================================================= -->
+
+        {% if result %}
+
+        <section class="latest-result">
+
+            <div class="section-title">
+
+                <div>
+
+                    <span class="eyebrow">
+                        COMPLETED
+                    </span>
+
+                    <h2>
+                        Your Normal Map
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <div class="latest-image">
+
+                <img
+                    src="{{ result }}"
+                    alt="Generated Normal Map"
+                >
+
+            </div>
+
+
+            <a
+                href="{{ result }}"
+                download
+                class="download-button"
+            >
+                Download Normal Map
+            </a>
+
+        </section>
+
+        {% endif %}
+
+
+        <!-- ================================================= -->
+        <!-- Generated Gallery -->
+        <!-- ================================================= -->
+
+        <section class="gallery-section">
+
+            <div class="section-title">
+
+                <div>
+
+                    <span class="eyebrow">
+                        HISTORY
+                    </span>
+
+                    <h2>
+                        Generated Normal Maps
+                    </h2>
+
+                </div>
+
+                <span class="count">
+                    {{ generated_maps|length }}
+                    generation{% if generated_maps|length != 1 %}s{% endif %}
+                </span>
+
+            </div>
+
+
+            {% if generated_maps %}
+
+            <div class="gallery">
+
+                {% for item in generated_maps %}
+
+                <article class="generation-card">
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <span class="card-label">
+                                GENERATION
+                            </span>
+
+                            <code>
+                                {{ item.id }}
+                            </code>
+
+                        </div>
+
+                        <span class="date">
+                            {{ item.created_at.strftime('%Y-%m-%d %H:%M') }}
+                        </span>
+
+                    </div>
+
+
+                    <div class="image-comparison">
+
+                        <!-- Texture -->
+
+                        <div class="image-box">
+
+                            <div class="image-label">
+                                Texture
+                            </div>
+
+                            <img
+                                src="{{ item.texture_url }}"
+                                alt="Texture"
+                                loading="lazy"
+                            >
+
+                        </div>
+
+
+                        <!-- Arrow -->
+
+                        <div class="arrow">
+                            →
+                        </div>
+
+
+                        <!-- Normal -->
+
+                        <div class="image-box">
+
+                            <div class="image-label normal-label">
+                                Normal Map
+                            </div>
+
+                            <img
+                                src="{{ item.normal_map_url }}"
+                                alt="Generated normal map"
+                                loading="lazy"
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="card-footer">
+
+                        <span>
+                            UUID:
+                            {{ item.id }}
+                        </span>
+
+                        <a
+                            href="{{ item.normal_map_url }}"
+                            download
+                        >
+                            Download
+                        </a>
+
+                    </div>
+
+                </article>
+
+                {% endfor %}
+
+            </div>
+
+            {% else %}
+
+            <div class="empty-state">
+
+                <div class="empty-icon">
+                    ◇
+                </div>
+
+                <h3>
+                    No generated maps yet
+                </h3>
+
+                <p>
+                    Upload your first texture above
+                    to generate a normal map.
+                </p>
+
+            </div>
+
+            {% endif %}
+
+        </section>
+
+    </main>
+
+</body>
+
+</html>
+
